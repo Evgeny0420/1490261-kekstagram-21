@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Евгений Карпов](https://up.htmlacademy.ru/javascript/21/user/1490261).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Кривонос](https://up.htmlacademy.ru/adaptive/20/user/1311037).
 
 ---
 
