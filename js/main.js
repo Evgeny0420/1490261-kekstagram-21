@@ -44,8 +44,8 @@ for (let i = 0; i < 3; i++) {
 }; */
 
 const randomLorem = function () {
-  const a = TEXT.split('');
-  return a.slice(0, randomNumber(4, a.length)).join('');
+  const a = TEXT.split(' ');
+  return a.slice(0, randomNumber(4, a.length)).join(' ');
 };
 // создание массива с фотографиями, лайками и комментариями
 const photos = [];
