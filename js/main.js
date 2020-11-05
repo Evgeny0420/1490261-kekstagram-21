@@ -39,10 +39,6 @@ for (let i = 0; i < 3; i++) {
   });
 }
 
-/* const randomLorem = function () {
-  return TEXT.substr(0, randomNumber(10, TEXT.length));
-}; */
-
 const randomLorem = function () {
   const a = TEXT.split(' ');
   return a.slice(0, randomNumber(4, a.length)).join(' ');
@@ -78,3 +74,163 @@ for (let j = 1; j < photos.length; j++) {
   fragment.appendChild(getUserPicture(photos[j]));
 }
 UsersPicture.appendChild(fragment);
+
+// задание 4 лекции
+
+const uploadFile = document.querySelector('#upload-file');
+const uploadOverlay = document.querySelector('.img-upload__overlay');
+const uploadCancel = document.querySelector('#upload-cancel');
+const body = document.querySelector('body');
+
+// добавление попапа при изменении в инпут при загрузке фото
+uploadFile.addEventListener('change', function (evt) {
+  evt.preventDefault();
+  uploadOverlay.classList.remove('hidden');
+  body.classList.add('modal-open');
+});
+// функция  удаления попапа
+const cancelPopup = function () {
+  uploadOverlay.classList.add('hidden');
+  body.classList.remove('modal-open');
+};
+// закрытие попапа(окна редактирования фото) по кнопке и по esc
+uploadCancel.addEventListener('click', function () {
+  cancelPopup();
+});
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27) {
+    cancelPopup();
+  }
+});
+
+// обработчик события на бегунке
+const levelPin = document.querySelector('.effect-level__pin');
+const levelDepth = document.querySelector('.effect-level__depth');
+const levelLine = document.querySelector('.effect-level__line');
+const form = document.querySelector('.img-upload__form');
+const imagePreview = document.querySelector('.img-upload__preview img');
+const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
+let percentX;
+let filter;
+let value;
+// массив всех фильтров
+const filters = [{
+  value: 'none',
+  name: 'none',
+  range: '',
+  unit: ''
+}, {
+  value: 'chrome',
+  name: 'grayscale',
+  range: [0, 1],
+  unit: ''
+}, {
+  value: 'sepia',
+  name: 'sepia',
+  range: [0, 1],
+  unit: ''
+}, {
+  value: 'marvin',
+  name: 'invert',
+  range: [0, 100],
+  unit: '%'
+}, {
+  value: 'phobos',
+  name: 'blur',
+  range: [0, 3],
+  unit: 'px'
+}, {
+  value: 'heat',
+  name: 'brightness',
+  range: [1, 3],
+  unit: ''
+}
+];
+// сразу убираем бегунок на первом оригинальном фото без филтра
+imgUploadEffectLevel.classList.add('hidden');
+
+levelLine.addEventListener(`mouseup`, function (evt) {
+  // вычисляем крайнюю левую точку элемента относительно минус расстояние от стенки окна
+  const x = evt.clientX - levelLine.getBoundingClientRect().left;
+  percentX = x * 100 / 453;
+  levelPin.style.left = percentX + '%';
+  levelDepth.style.width = percentX + '%';
+  imagePreview.style.filter = filter.name + '(' + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + ')';
+});
+
+const filtersImg = function () {
+  let radioButtons = document.querySelectorAll('.effects__radio');
+  for (let i = 0; i < radioButtons.length; i++) {
+    if (radioButtons[i].checked === true) {
+      value = radioButtons[i].value;
+    }
+  }
+  for (let i = 0; i < filters.length; i++) {
+    if (filters[i].value === value) {
+      filter = filters[i];
+      break;
+    }
+  }
+  if (value === 'none') {
+    imgUploadEffectLevel.classList.add('hidden');
+    imagePreview.style.filter = 'none';
+  } else if (value !== 'none') {
+    imgUploadEffectLevel.classList.remove('hidden');
+  }
+
+  imagePreview.style.filter = filter.name + '(' + filter.range[1] + filter.unit + ')';
+  levelPin.style.left = '100%';
+  levelDepth.style.width = '100%';
+};
+
+form.addEventListener('change', filtersImg);
+
+// валидация хештегов
+
+// const hashtagInput = document.querySelector(`.text__hashtags`);
+// const checkHashtag = function (evt) {
+//   const hastags = hashtagInput.value.split(` `);
+
+//   console.log (evt);
+// };
+const LONG_HASHTAG = 20;
+const SHORT_HASHTAG = 2;
+const MAX_HASHTAG = 5;
+const re = /^#[\w\а-яА-Я]*$/;
+const hashtagsInput = document.querySelector(`.text__hashtags`);
+hashtagsInput.addEventListener('input', function () {
+  let hashtags = hashtagsInput.value.split(` `);
+  for (let i = 0; i < hashtags.length; i++) {
+    if (hashtags[i][0] !== '#') {
+      hashtagsInput.setCustomValidity(`Хэш-тег начинается с символа # (решётка)!`);
+    } else if (!re.test(hashtags[i])) {
+      hashtagsInput.setCustomValidity(`Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.!`);
+    } else if (hashtags.length >= MAX_HASHTAG) {
+      hashtagsInput.setCustomValidity(`Нельзя указать больше пяти хэш-тегов!`);
+    } else if (hashtags[i].length < SHORT_HASHTAG || hashtags[i].length > LONG_HASHTAG) {
+      hashtagsInput.setCustomValidity(`Хеш-теги не должны быть короче 2 и не длиннее 20 символов включая "#"!`);
+    } else {
+      hashtagsInput.setCustomValidity(``);
+    }
+    let objIndex = 0;
+    let jIndex = 0;
+    let firstObj = hashtags[objIndex];
+    for (let j = jIndex + 1; j <= hashtags.length - 1; j++) {
+      if (firstObj.toLowerCase() === hashtags[j].toLowerCase()) {
+        hashtagsInput.setCustomValidity(`Один и тот же хэш-тег не может быть использован дважды!`);
+      } else if (firstObj.toLowerCase() !== hashtags[j].toLowerCase()) {
+        objIndex = 1;
+        jIndex = 1;
+        if (firstObj.toLowerCase() === hashtags[j].toLowerCase()) {
+          hashtagsInput.setCustomValidity(`Один и тот же хэш-тег не может быть использован дважды!`);
+          break;
+        }
+      } else {
+        hashtagsInput.setCustomValidity(``);
+      }
+    }
+  }
+});
+
+
