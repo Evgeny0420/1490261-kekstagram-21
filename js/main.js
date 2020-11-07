@@ -200,7 +200,8 @@ const MAX_HASHTAG = 5;
 const re = /^#[\w\а-яА-Я]*$/;
 const hashtagsInput = document.querySelector(`.text__hashtags`);
 hashtagsInput.addEventListener('input', function () {
-  let hashtags = hashtagsInput.value.split(` `);
+  const hashtags = hashtagsInput.value.toLowerCase().split(` `);
+  const set = new Set(hashtags);
   for (let i = 0; i < hashtags.length; i++) {
     if (hashtags[i][0] !== '#') {
       hashtagsInput.setCustomValidity(`Хэш-тег начинается с символа # (решётка)!`);
@@ -210,25 +211,10 @@ hashtagsInput.addEventListener('input', function () {
       hashtagsInput.setCustomValidity(`Нельзя указать больше пяти хэш-тегов!`);
     } else if (hashtags[i].length < SHORT_HASHTAG || hashtags[i].length > LONG_HASHTAG) {
       hashtagsInput.setCustomValidity(`Хеш-теги не должны быть короче 2 и не длиннее 20 символов включая "#"!`);
+    } else if (hashtags.length !== set.size) {
+      hashtagsInput.setCustomValidity(`Один и тот же хэш-тег не может быть использован дважды!`);
     } else {
       hashtagsInput.setCustomValidity(``);
-    }
-    let objIndex = 0;
-    let jIndex = 0;
-    let firstObj = hashtags[objIndex];
-    for (let j = jIndex + 1; j <= hashtags.length - 1; j++) {
-      if (firstObj.toLowerCase() === hashtags[j].toLowerCase()) {
-        hashtagsInput.setCustomValidity(`Один и тот же хэш-тег не может быть использован дважды!`);
-      } else if (firstObj.toLowerCase() !== hashtags[j].toLowerCase()) {
-        objIndex = 1;
-        jIndex = 1;
-        if (firstObj.toLowerCase() === hashtags[j].toLowerCase()) {
-          hashtagsInput.setCustomValidity(`Один и тот же хэш-тег не может быть использован дважды!`);
-          break;
-        }
-      } else {
-        hashtagsInput.setCustomValidity(``);
-      }
     }
   }
 });
