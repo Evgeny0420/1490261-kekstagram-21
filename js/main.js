@@ -188,12 +188,6 @@ form.addEventListener('change', filtersImg);
 
 // валидация хештегов
 
-// const hashtagInput = document.querySelector(`.text__hashtags`);
-// const checkHashtag = function (evt) {
-//   const hastags = hashtagInput.value.split(` `);
-
-//   console.log (evt);
-// };
 const LONG_HASHTAG = 20;
 const SHORT_HASHTAG = 2;
 const MAX_HASHTAG = 5;
