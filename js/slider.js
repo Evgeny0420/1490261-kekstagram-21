@@ -48,7 +48,7 @@
   levelLine.addEventListener(`mouseup`, function (evt) {
     // вычисляем крайнюю левую точку элемента относительно минус расстояние от стенки окна
     const x = evt.clientX - levelLine.getBoundingClientRect().left;
-    percentX = x * 100 / 453;
+    percentX = x * 100 / evt.target;
     levelPin.style.left = percentX + '%';
     levelDepth.style.width = percentX + '%';
     imagePreview.style.filter = filter.name + '(' + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + ')';
@@ -56,7 +56,7 @@
   const filtersImg = function () {
     let radioButtons = document.querySelectorAll('.effects__radio');
     for (let i = 0; i < radioButtons.length; i++) {
-      if (radioButtons[i].checked === true) {
+      if (radioButtons[i].checked) {
         value = radioButtons[i].value;
       }
     }

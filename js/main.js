@@ -45,7 +45,7 @@
   const photos = [];
   for (let i = 1; i <= PHOTO_MAX_NUMBER; i++) {
     const photo = {
-      url: `photos/${i}.jpg`,
+      url: 'photos/${i}.jpg',
       description: randomLorem(),
       likes: window.random.randomNumber(MIN_LIKES, MAX_LIKES),
       comments: сomments.length
@@ -53,16 +53,16 @@
     photos.push(photo);
   }
   // находим шаблон поста.
-  const UsersPicture = document.querySelector(`.pictures`);
-  const userPictureTemplate = document.querySelector(`#picture`).content.querySelector(`.picture`);
+  const UsersPicture = document.querySelector('.pictures');
+  const userPictureTemplate = document.querySelector(`#picture`).content.querySelector('.picture');
   // размножаем шаблон
   const getUserPicture = function (photo) {
     const userPicture = userPictureTemplate.cloneNode(true);
-    const pictureImg = userPicture.querySelector(`.picture__img`);
+    const pictureImg = userPicture.querySelector('.picture__img');
     const image = photo.url;
-    pictureImg.setAttribute(`src`, image);
-    userPicture.querySelector(`.picture__comments`).textContent = photo.comments;
-    userPicture.querySelector(`.picture__likes`).textContent = photo.likes;
+    pictureImg.setAttribute('src', image);
+    userPicture.querySelector('.picture__comments').textContent = photo.comments;
+    userPicture.querySelector('.picture__likes').textContent = photo.likes;
 
     return userPicture;
   };

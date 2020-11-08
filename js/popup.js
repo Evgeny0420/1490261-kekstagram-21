@@ -7,9 +7,12 @@
   const body = document.querySelector('body');
   uploadFile.addEventListener('change', function (evt) {
     evt.preventDefault();
+    openPopup();
+  });
+  const openPopup = function () {
     uploadOverlay.classList.remove('hidden');
     body.classList.add('modal-open');
-  });
+  };
   const cancelPopup = function () {
     uploadOverlay.classList.add('hidden');
     body.classList.remove('modal-open');
