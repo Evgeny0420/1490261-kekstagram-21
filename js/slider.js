@@ -48,7 +48,7 @@
   levelLine.addEventListener(`mouseup`, function (evt) {
     // вычисляем крайнюю левую точку элемента относительно минус расстояние от стенки окна
     const x = evt.clientX - levelLine.getBoundingClientRect().left;
-    percentX = x * 100 / evt.target;
+    percentX = x * 100 / levelLine.offsetWidth;
     levelPin.style.left = percentX + '%';
     levelDepth.style.width = percentX + '%';
     imagePreview.style.filter = filter.name + '(' + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + ')';
