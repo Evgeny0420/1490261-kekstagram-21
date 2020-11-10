@@ -23,4 +23,7 @@
   document.addEventListener('keydown', function (evt) {
     window.util.isEscEvent(evt, cancelPopup);
   });
+  window.popup = {
+    body: body
+  };
 })();
