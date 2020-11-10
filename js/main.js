@@ -26,21 +26,24 @@
     const a = TEXT.split(' ');
     return a.slice(0, window.random.randomNumber(4, a.length)).join(' ');
   };
-  const comments = [];
-  for (let i = 0; i < 10; i++) {
-    comments.push({
-      avatar: randomAvatar(),
-      message: randomArray(MESSAGE),
-      name: randomArray(NAME)
-    });
-  }
+  const commentFn = function () {
+    const comments = [];
+    for (let i = 0; i < 3; i++) {
+      comments.push({
+        avatar: randomAvatar(),
+        message: randomArray(MESSAGE),
+        name: randomArray(NAME)
+      });
+    }
+    return comments;
+  };
   const photos = [];
   for (let i = 1; i <= PHOTO_MAX_NUMBER; i++) {
     const photo = {
       url: `photos/${i}.jpg`,
       description: randomLorem(),
       likes: window.random.randomNumber(MIN_LIKES, MAX_LIKES),
-      comments: comments.length
+      comments: commentFn()
     };
     photos.push(photo);
   }
@@ -53,7 +56,7 @@
     const pictureImg = userPicture.querySelector('.picture__img');
     const image = photo.url;
     pictureImg.setAttribute('src', image);
-    userPicture.querySelector('.picture__comments').textContent = photo.comments;
+    userPicture.querySelector('.picture__comments').textContent = photo.comments.length;
     userPicture.querySelector('.picture__likes').textContent = photo.likes;
 
     return userPicture;
@@ -65,15 +68,7 @@
   }
   UsersPicture.appendChild(fragment);
   window.main = {
-    MIN_NUMBER: MIN_NUMBER,
-    MAX_AVATAR: MAX_AVATAR,
-    MIN_LIKES: MIN_LIKES,
-    MAX_LIKES: MAX_LIKES,
-    MESSAGE: MESSAGE,
-    NAME: NAME,
-    TEXT: TEXT,
-    randomArray: randomArray,
-    randomAvatar: randomAvatar,
-    randomLorem: randomLorem
+    photos: photos,
+    commentFn: commentFn()
   };
 })();

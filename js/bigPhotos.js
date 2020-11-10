@@ -14,34 +14,35 @@
   const commentsLoader = document.querySelector('.comments-loader');
   commentsLoader.classList.add('hidden');
   socialCommentCount.classList.add('hidden');
-  for (let i = 0; i < socialComment.length; i++) {
-    const socialPicture = socialComment[i].querySelector('.social__picture');
-    const socialText = socialComment[i].querySelector('.social__text');
-    socialPicture.src = window.main.randomAvatar();
-    socialPicture.alt = window.main.randomArray(window.main.NAME);
-    socialText.textContent = window.main.randomArray(window.main.MESSAGE);
-  }
+
   const openPicture = function () {
     bigPicture.classList.remove('hidden');
     window.popup.body.classList.add('modal-open');
   };
-  const cancelPictere = function () {
+  const cancelPicture = function () {
     bigPicture.classList.add('hidden');
     window.popup.body.classList.remove('modal-open');
   };
   for (let i = 0; i < pictureImg.length; i++) {
     pictureImg[i].addEventListener('click', function () {
       openPicture();
-      bigPhoto.src = `photos/${i + 1}.jpg`;
-      likes.textContent = window.random.randomNumber(window.main.MIN_LIKES, window.main.MAX_LIKES);
+      bigPhoto.src = window.main.photos[i].url;
+      likes.textContent = window.main.photos[i].likes;
       commentsCount.textContent = 10;
-      socialCaption.textContent = window.main.randomLorem();
+      socialCaption.textContent = window.main.photos[i].description;
+      for (let j = 0; j < socialComment.length; j++) {
+        const socialPicture = socialComment[j].querySelector('.social__picture');
+        const socialText = socialComment[j].querySelector('.social__text');
+        socialPicture.src = window.main.photos[i].comments[j].avatar;
+        socialPicture.alt = window.main.photos[i].comments[j].name;
+        socialText.textContent = window.main.photos[i].comments[j].message;
+      }
     });
     CancelX.addEventListener('click', function () {
-      cancelPictere();
+      cancelPicture();
     });
     document.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, cancelPictere);
+      window.util.isEscEvent(evt, cancelPicture);
     });
   }
 })();
