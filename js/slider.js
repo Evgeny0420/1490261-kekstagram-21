@@ -10,7 +10,6 @@
   let percentX;
   let filter;
   let value;
-  // массив всех фильтров
   const filters = [{
     value: 'none',
     name: 'none',
@@ -43,7 +42,6 @@
     unit: ''
   }
   ];
-  // сразу убираем бегунок на первом оригинальном фото без филтра
   imgUploadEffectLevel.classList.add('hidden');
   levelPin.addEventListener('mousedown', function (evt) {
     let startCoords = {
@@ -57,18 +55,23 @@
       startCoords = {
         x: moveEvt.clientX
       };
-      setup.style.top = (setup.offsetTop - shift.y) + 'px';
-      setup.style.left = (setup.offsetLeft - shift.x) + 'px';
-    };
-    levelLine.addEventListener('mousemove', onMouseMove);
-    levelLine.addEventListener(`mouseup`, function (evt) {
-      // вычисляем крайнюю левую точку элемента относительно минус расстояние от стенки окна
-      const x = evt.clientX - levelLine.getBoundingClientRect().left;
-      percentX = x * 100 / levelLine.offsetWidth;
+      percentX = (levelPin.offsetLeft - shift.x) * 100 / levelLine.offsetWidth;
+      if (percentX < 0) {
+        percentX = 0;
+      } else if (percentX > 100) {
+        percentX = 100;
+      }
       levelPin.style.left = percentX + '%';
-      levelDepth.style.width = percentX + '%';
       imagePreview.style.filter = filter.name + '(' + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + ')';
-    });
+    };
+    let onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
   const filtersImg = function () {
     let radioButtons = document.querySelectorAll('.effects__radio');
