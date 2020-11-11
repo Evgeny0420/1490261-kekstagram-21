@@ -8,6 +8,7 @@
   const bigPhoto = document.querySelector('.big-picture__img img');
   const likes = document.querySelector('.likes-count');
   const pictureImg = document.querySelectorAll('.picture__img');
+  const pictureLink = document.querySelectorAll('.picture');
   const socialComment = document.querySelectorAll('.social__comment');
   const CancelX = document.querySelector('.big-picture__cancel');
   const socialCommentCount = document.querySelector('.social__comment-count');
@@ -24,7 +25,7 @@
     window.popup.body.classList.remove('modal-open');
   };
   for (let i = 0; i < pictureImg.length; i++) {
-    pictureImg[i].addEventListener('click', function () {
+    pictureLink[i].addEventListener('click', function () {
       openPicture();
       bigPhoto.src = window.main.photos[i].url;
       likes.textContent = window.main.photos[i].likes;
@@ -37,6 +38,9 @@
         socialPicture.alt = window.main.photos[i].comments[j].name;
         socialText.textContent = window.main.photos[i].comments[j].message;
       }
+    });
+    pictureLink[i].addEventListener('keydown', function (evt) {
+      window.util.isEnterEvent(evt, openPicture);
     });
     CancelX.addEventListener('click', function () {
       cancelPicture();

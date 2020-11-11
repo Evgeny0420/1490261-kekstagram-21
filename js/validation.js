@@ -2,10 +2,12 @@
 
 (function () {
   const LONG_HASHTAG = 20;
+  const LONG_DESCRIPTION = 140;
   const SHORT_HASHTAG = 2;
   const MAX_HASHTAG = 5;
   const re = /^#[\w\а-яА-Я]*$/;
   const hashtagsInput = document.querySelector('.text__hashtags');
+  const descriptionInput = document.querySelector('.text__description');
   hashtagsInput.addEventListener('input', function () {
     const hashtags = hashtagsInput.value.toLowerCase().split(' ');
     if (hashtags.length > MAX_HASHTAG) {
@@ -24,6 +26,13 @@
           hashtagsInput.setCustomValidity(``);
         }
       }
+    }
+  });
+  descriptionInput.addEventListener('invalid', function () {
+    if (descriptionInput.validity.tooLong) {
+      descriptionInput.setCustomValidity(`Комментарий не должен быть  длиннее ${LONG_DESCRIPTION} символов!`);
+    } else {
+      descriptionInput.setCustomValidity(``);
     }
   });
 })();
