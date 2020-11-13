@@ -7,7 +7,6 @@
   const bigPicture = document.querySelector('.big-picture');
   const bigPhoto = document.querySelector('.big-picture__img img');
   const likes = document.querySelector('.likes-count');
-  const pictureImg = document.querySelectorAll('.picture__img');
   const socialComment = document.querySelectorAll('.social__comment');
   const CancelX = document.querySelector('.big-picture__cancel');
   const socialCommentCount = document.querySelector('.social__comment-count');
