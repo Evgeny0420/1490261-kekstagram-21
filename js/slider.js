@@ -1,49 +1,49 @@
 'use strict';
 
 (function () {
-  const levelPin = document.querySelector('.effect-level__pin');
-  const levelDepth = document.querySelector('.effect-level__depth');
-  const levelLine = document.querySelector('.effect-level__line');
-  const form = document.querySelector('.img-upload__form');
-  const imagePreview = document.querySelector('.img-upload__preview img');
-  const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
+  const levelPin = document.querySelector(`.effect-level__pin`);
+  const levelDepth = document.querySelector(`.effect-level__depth`);
+  const levelLine = document.querySelector(`.effect-level__line`);
+  const form = document.querySelector(`.img-upload__form`);
+  const imagePreview = document.querySelector(`.img-upload__preview img`);
+  const imgUploadEffectLevel = document.querySelector(`.img-upload__effect-level`);
   let percentX;
   let filter;
   let value;
   const filters = [{
-    value: 'none',
-    name: 'none',
-    range: '',
-    unit: ''
+    value: `none`,
+    name: `none`,
+    range: ``,
+    unit: ``
   }, {
-    value: 'chrome',
-    name: 'grayscale',
+    value: `chrome`,
+    name: `grayscale`,
     range: [0, 1],
-    unit: ''
+    unit: ``
   }, {
-    value: 'sepia',
-    name: 'sepia',
+    value: `sepia`,
+    name: `sepia`,
     range: [0, 1],
-    unit: ''
+    unit: ``
   }, {
-    value: 'marvin',
-    name: 'invert',
+    value: `marvin`,
+    name: `invert`,
     range: [0, 100],
-    unit: '%'
+    unit: `%`
   }, {
-    value: 'phobos',
-    name: 'blur',
+    value: `phobos`,
+    name: `blur`,
     range: [0, 3],
-    unit: 'px'
+    unit: `px`
   }, {
-    value: 'heat',
-    name: 'brightness',
+    value: `heat`,
+    name: `brightness`,
     range: [1, 3],
-    unit: ''
+    unit: ``
   }
   ];
-  imgUploadEffectLevel.classList.add('hidden');
-  levelPin.addEventListener('mousedown', function (evt) {
+  imgUploadEffectLevel.classList.add(`hidden`);
+  levelPin.addEventListener(`mousedown`, function (evt) {
     let startCoords = {
       x: evt.clientX
     };
@@ -61,20 +61,20 @@
       } else if (percentX > 100) {
         percentX = 100;
       }
-      levelPin.style.left = percentX + '%';
-      imagePreview.style.filter = filter.name + '(' + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + ')';
+      levelPin.style.left = percentX + `%`;
+      imagePreview.style.filter = filter.name + `(` + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + `)`;
     };
     let onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener(`mousemove`, onMouseMove);
+      document.removeEventListener(`mouseup`, onMouseUp);
     };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener(`mousemove`, onMouseMove);
+    document.addEventListener(`mouseup`, onMouseUp);
   });
   const filtersImg = function () {
-    let radioButtons = document.querySelectorAll('.effects__radio');
+    let radioButtons = document.querySelectorAll(`.effects__radio`);
     for (let i = 0; i < radioButtons.length; i++) {
       if (radioButtons[i].checked) {
         value = radioButtons[i].value;
@@ -86,15 +86,15 @@
         break;
       }
     }
-    if (value === 'none') {
-      imgUploadEffectLevel.classList.add('hidden');
-      imagePreview.style.filter = 'none';
-    } else if (value !== 'none') {
-      imgUploadEffectLevel.classList.remove('hidden');
+    if (value === `none`) {
+      imgUploadEffectLevel.classList.add(`hidden`);
+      imagePreview.style.filter = `none`;
+    } else if (value !== `none`) {
+      imgUploadEffectLevel.classList.remove(`hidden`);
     }
-    imagePreview.style.filter = filter.name + '(' + filter.range[1] + filter.unit + ')';
-    levelPin.style.left = '100%';
-    levelDepth.style.width = '100%';
+    imagePreview.style.filter = filter.name + `(` + filter.range[1] + filter.unit + `)`;
+    levelPin.style.left = `100%`;
+    levelDepth.style.width = `100%`;
   };
-  form.addEventListener('change', filtersImg);
+  form.addEventListener(`change`, filtersImg);
 })();
