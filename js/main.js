@@ -2,11 +2,9 @@
 
 (function () {
   const main = document.querySelector(`main`);
-  // находим шаблон поста.
   const successTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
   const errorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
   const imgFilters = document.querySelector(`.img-filters`);
-  // размножаем шаблон
 
   const filterOpen = function () {
     imgFilters.classList.remove(`img-filters--inactive`);
@@ -18,15 +16,12 @@
     element.classList.add(`hidden`);
   }
   let photos = [];
-  // добавляем в разметку (на страницу)
   const successHandler = function (data) {
-    window.filters.filterDefault.addEventListener(`click`, function () {
-      window.filters.filterDefaultActive();
+    const defaultFilters = function () {
       window.render.append(data);
       window.bigPhotos(data);
-    });
-    window.filters.filterRandom.addEventListener(`click`, function () {
-      window.filters.filterRandomActive();
+    };
+    const randomFilters = function () {
       for (let i = 0; i < data.length; i++) {
         photos.push(window.random.getRandomElement(data));
       }
@@ -34,18 +29,28 @@
       photos = Array.from(newRandomArray).slice(0, 10);
       window.render.append(photos);
       window.bigPhotos(photos);
-    });
-    window.filters.filterDiscussed.addEventListener(`click`, function () {
-      window.filters.filterDiscussedActive();
+    };
+    const discussedFilters = function () {
       const comparePhotos = function (a, b) {
         return a.comments.length - b.comments.length;
       };
-      photos = Array.from(data).sort(comparePhotos).reverse();
-      window.render.append(photos);
-      window.bigPhotos(photos);
+      let resultPhotos = Array.from(data).sort(comparePhotos).reverse();
+      window.render.append(resultPhotos);
+      window.bigPhotos(resultPhotos);
+    };
+    window.filters.filterDefault.addEventListener(`click`, function () {
+      window.filters.filterDefaultActive();
+      window.debounce(defaultFilters);
     });
-    window.render.append(data);
-    window.bigPhotos(data);
+    window.filters.filterRandom.addEventListener(`click`, function () {
+      window.filters.filterRandomActive();
+      window.debounce(randomFilters);
+    });
+    window.filters.filterDiscussed.addEventListener(`click`, function () {
+      window.filters.filterDiscussedActive();
+      window.debounce(discussedFilters);
+    });
+    defaultFilters();
     filterOpen();
   };
   const errorHandler = function (errorMessage) {
