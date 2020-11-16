@@ -77,6 +77,8 @@
     let radioButtons = document.querySelectorAll(`.effects__radio`);
     for (let i = 0; i < radioButtons.length; i++) {
       if (radioButtons[i].checked) {
+        levelPin.style.left = `100%`;
+        levelDepth.style.width = `100%`;
         value = radioButtons[i].value;
       }
     }
@@ -93,8 +95,6 @@
       imgUploadEffectLevel.classList.remove(`hidden`);
     }
     imagePreview.style.filter = filter.name + `(` + filter.range[1] + filter.unit + `)`;
-    levelPin.style.left = `100%`;
-    levelDepth.style.width = `100%`;
   };
   form.addEventListener(`change`, filtersImg);
 })();
