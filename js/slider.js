@@ -7,6 +7,7 @@
   const form = document.querySelector(`.img-upload__form`);
   const imagePreview = document.querySelector(`.img-upload__preview img`);
   const imgUploadEffectLevel = document.querySelector(`.img-upload__effect-level`);
+  const effectsRadio = document.querySelectorAll(`.effects__radio`);
   let percentX;
   let filter;
   let value;
@@ -73,7 +74,7 @@
     document.addEventListener(`mousemove`, onMouseMove);
     document.addEventListener(`mouseup`, onMouseUp);
   });
-  const filtersImg = function () {
+  const getFiltersImg = function () {
     let radioButtons = document.querySelectorAll(`.effects__radio`);
     for (let i = 0; i < radioButtons.length; i++) {
       if (radioButtons[i].checked) {
@@ -96,5 +97,11 @@
     }
     imagePreview.style.filter = filter.name + `(` + filter.range[1] + filter.unit + `)`;
   };
-  form.addEventListener(`change`, filtersImg);
+  effectsRadio.forEach(function (radio) {
+    radio.addEventListener(`change`, getFiltersImg);
+  });
+  window.slider = {
+    imagePreview: imagePreview,
+    getFiltersImg: getFiltersImg
+  };
 })();
