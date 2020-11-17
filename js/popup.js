@@ -21,20 +21,25 @@
     cancelPopup();
   });
   document.addEventListener(`keydown`, function (evt) {
+    if (evt.target && (evt.target.classList.contains(`text__hashtags`) || evt.target.classList.contains(`text__description`))) {
+      return;
+    }
     window.util.isEscEvent(evt, cancelPopup);
   });
   const form = document.querySelector(`.img-upload__form`);
   form.addEventListener(`submit`, function (evt) {
     const formData = new FormData(form);
-    const successPopup = function () {
+    const getSuccessPopup = function () {
+      window.zoom.reset();
       form.reset();
+      window.slider.getFiltersImg();
       cancelPopup();
       window.successErrorPopup.successOpen();
     };
-    const errorPopup = function () {
+    const getErrorPopup = function () {
       window.successErrorPopup.errorOpen();
     };
-    window.upload(formData, successPopup, errorPopup);
+    window.upload(formData, getSuccessPopup, getErrorPopup);
     evt.preventDefault();
   });
   window.popup = {

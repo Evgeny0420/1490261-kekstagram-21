@@ -17,18 +17,18 @@
   }
   let photos = [];
   const successHandler = function (data) {
-    const defaultFilters = function () {
+    const getDefaultFilters = function () {
       window.render.append(data);
-      window.bigPhotos(data);
+      window.openBigPhotos(data);
     };
-    const randomFilters = function () {
+    const getRandomFilters = function () {
       for (let i = 0; i < data.length; i++) {
         photos.push(window.random.getRandomElement(data));
       }
       const newRandomArray = new Set(photos);
       photos = Array.from(newRandomArray).slice(0, 10);
       window.render.append(photos);
-      window.bigPhotos(photos);
+      window.openBigPhotos(photos);
     };
     const discussedFilters = function () {
       const comparePhotos = function (a, b) {
@@ -36,33 +36,33 @@
       };
       let resultPhotos = Array.from(data).sort(comparePhotos).reverse();
       window.render.append(resultPhotos);
-      window.bigPhotos(resultPhotos);
+      window.openBigPhotos(resultPhotos);
     };
     window.filters.filterDefault.addEventListener(`click`, function () {
       window.filters.filterDefaultActive();
-      window.debounce(defaultFilters);
+      window.debounce(getDefaultFilters);
     });
     window.filters.filterRandom.addEventListener(`click`, function () {
       window.filters.filterRandomActive();
-      window.debounce(randomFilters);
+      window.debounce(getRandomFilters);
     });
     window.filters.filterDiscussed.addEventListener(`click`, function () {
       window.filters.filterDiscussedActive();
       window.debounce(discussedFilters);
     });
-    defaultFilters();
+    getDefaultFilters();
     filterOpen();
   };
-  const errorHandler = function (errorMessage) {
+  const getErrorHandler = function (errorMessage) {
     const node = document.createElement(`div`);
     node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
     node.style.position = `absolute`;
     node.style.left = `0`;
     node.style.right = `0`;
-    node.style.fontSize = `30px`;
+    node.style.fontSize = `20px`;
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
-  window.load(successHandler, errorHandler);
+  window.load(successHandler, getErrorHandler);
 })();
