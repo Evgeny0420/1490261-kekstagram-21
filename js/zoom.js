@@ -12,7 +12,7 @@
   controlValueElement.value = `100%`;
   const getControlValue = function () {
     controlValueElement.value = percentNumber + `%`;
-    window.slider.imagePreviewElement.style = `transform: scale(${percentNumber / 100})`;
+    window.slider.imagePreviewElement.style.transform = `scale(${percentNumber / 100})`;
   };
 
   let percentNumber = Number(controlValueElement.value.replace(`%`, ``));

@@ -20,8 +20,8 @@
       filterDiscussedElement.classList.remove(`img-filters__button--active`);
       filterDefaultElement.classList.add(`img-filters__button--active`);
     },
-    filterDefaultElement: filterDefaultElement,
-    filterRandomElement: filterRandomElement,
-    filterDiscussedElement: filterDiscussedElement
+    filterDefaultElement,
+    filterRandomElement,
+    filterDiscussedElement
   };
 })();
