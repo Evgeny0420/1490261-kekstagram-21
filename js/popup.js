@@ -6,9 +6,19 @@
   const uploadCancelElement = document.querySelector(`#upload-cancel`);
   const formElement = document.querySelector(`.img-upload__form`);
   const body = document.querySelector(`body`);
+  const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   uploadFileElement.addEventListener(`change`, function (evt) {
     evt.preventDefault();
-    openPopup();
+    const file = uploadFileElement.files[0];
+    const fileName = file.name.toLowerCase();
+    const matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+    if (matches) {
+      openPopup();
+    } else {
+      window.successErrorPopup.errorOpen();
+    }
   });
   const openPopup = function () {
     uploadOverlayElement.classList.remove(`hidden`);
