@@ -53,7 +53,7 @@
     evt.preventDefault();
   });
   window.popup = {
-    body: body,
-    formElement: formElement
+    body,
+    formElement
   };
 })();
