@@ -1,36 +1,36 @@
 'use strict';
 
 (function () {
-  const error = document.querySelector(`.error`);
-  const success = document.querySelector(`.success`);
-  const successButton = success.querySelector(`.success__button`);
-  const errorButton = error.querySelector(`.error__button`);
+  const errorElement = document.querySelector(`.error`);
+  const successElement = document.querySelector(`.success`);
+  const successButtonElement = successElement.querySelector(`.success__button`);
+  const errorButtonElement = errorElement.querySelector(`.error__button`);
   window.successErrorPopup = {
     successOpen: function () {
-      success.classList.remove(`hidden`);
+      successElement.classList.remove(`hidden`);
     },
     errorOpen: function () {
-      error.classList.remove(`hidden`);
+      errorElement.classList.remove(`hidden`);
     }
   };
-  const successClosed = function () {
-    success.classList.add(`hidden`);
+  const getSuccessClosed = function () {
+    successElement.classList.add(`hidden`);
   };
-  const errorClosed = function () {
-    error.classList.add(`hidden`);
+  const getErrorClosed = function () {
+    errorElement.classList.add(`hidden`);
   };
-  successButton.addEventListener(`click`, function () {
-    successClosed();
+  successButtonElement.addEventListener(`click`, function () {
+    getSuccessClosed();
   });
-  errorButton.addEventListener(`click`, function () {
-    errorClosed();
+  errorButtonElement.addEventListener(`click`, function () {
+    getErrorClosed();
   });
   window.addEventListener(`click`, function () {
-    successClosed();
-    errorClosed();
+    getSuccessClosed();
+    getErrorClosed();
   });
   document.addEventListener(`keydown`, function (evt) {
-    window.util.isEscEvent(evt, successClosed);
-    window.util.isEscEvent(evt, errorClosed);
+    window.util.isEscEvent(evt, getSuccessClosed);
+    window.util.isEscEvent(evt, getErrorClosed);
   });
 })();

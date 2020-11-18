@@ -1,13 +1,12 @@
 'use strict';
 
 (function () {
-  const levelPin = document.querySelector(`.effect-level__pin`);
-  const levelDepth = document.querySelector(`.effect-level__depth`);
-  const levelLine = document.querySelector(`.effect-level__line`);
-  const form = document.querySelector(`.img-upload__form`);
-  const imagePreview = document.querySelector(`.img-upload__preview img`);
-  const imgUploadEffectLevel = document.querySelector(`.img-upload__effect-level`);
-  const effectsRadio = document.querySelectorAll(`.effects__radio`);
+  const levelPinElement = document.querySelector(`.effect-level__pin`);
+  const levelDepthElement = document.querySelector(`.effect-level__depth`);
+  const levelLineElement = document.querySelector(`.effect-level__line`);
+  const imagePreviewElement = document.querySelector(`.img-upload__preview img`);
+  const imgUploadEffectLevelElement = document.querySelector(`.img-upload__effect-level`);
+  const effectsRadioElements = document.querySelectorAll(`.effects__radio`);
   let percentX;
   let filter;
   let value;
@@ -43,12 +42,12 @@
     unit: ``
   }
   ];
-  imgUploadEffectLevel.classList.add(`hidden`);
-  levelPin.addEventListener(`mousedown`, function (evt) {
+  imgUploadEffectLevelElement.classList.add(`hidden`);
+  levelPinElement.addEventListener(`mousedown`, function (evt) {
     let startCoords = {
       x: evt.clientX
     };
-    let onMouseMove = function (moveEvt) {
+    const onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       let shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -56,16 +55,17 @@
       startCoords = {
         x: moveEvt.clientX
       };
-      percentX = (levelPin.offsetLeft - shift.x) * 100 / levelLine.offsetWidth;
+      percentX = (levelPinElement.offsetLeft - shift.x) * 100 / levelLineElement.offsetWidth;
       if (percentX < 0) {
         percentX = 0;
       } else if (percentX > 100) {
         percentX = 100;
       }
-      levelPin.style.left = percentX + `%`;
-      imagePreview.style.filter = filter.name + `(` + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + `)`;
+      levelPinElement.style.left = percentX + `%`;
+      levelDepthElement.style.width = percentX + `%`;
+      imagePreviewElement.style.filter = filter.name + `(` + ((filter.range[1] - filter.range[0]) * Math.round(percentX) / 100 + filter.range[0]) + filter.unit + `)`;
     };
-    let onMouseUp = function (upEvt) {
+    const onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener(`mousemove`, onMouseMove);
@@ -75,12 +75,12 @@
     document.addEventListener(`mouseup`, onMouseUp);
   });
   const getFiltersImg = function () {
-    let radioButtons = document.querySelectorAll(`.effects__radio`);
-    for (let i = 0; i < radioButtons.length; i++) {
-      if (radioButtons[i].checked) {
-        levelPin.style.left = `100%`;
-        levelDepth.style.width = `100%`;
-        value = radioButtons[i].value;
+    const radioButtonsElement = document.querySelectorAll(`.effects__radio`);
+    for (let i = 0; i < radioButtonsElement.length; i++) {
+      if (radioButtonsElement[i].checked) {
+        levelPinElement.style.left = `100%`;
+        levelDepthElement.style.width = `100%`;
+        value = radioButtonsElement[i].value;
       }
     }
     for (let i = 0; i < filters.length; i++) {
@@ -90,18 +90,18 @@
       }
     }
     if (value === `none`) {
-      imgUploadEffectLevel.classList.add(`hidden`);
-      imagePreview.style.filter = `none`;
+      imgUploadEffectLevelElement.classList.add(`hidden`);
+      imagePreviewElement.style.filter = `none`;
     } else if (value !== `none`) {
-      imgUploadEffectLevel.classList.remove(`hidden`);
+      imgUploadEffectLevelElement.classList.remove(`hidden`);
     }
-    imagePreview.style.filter = filter.name + `(` + filter.range[1] + filter.unit + `)`;
+    imagePreviewElement.style.filter = filter.name + `(` + filter.range[1] + filter.unit + `)`;
   };
-  effectsRadio.forEach(function (radio) {
+  effectsRadioElements.forEach(function (radio) {
     radio.addEventListener(`change`, getFiltersImg);
   });
   window.slider = {
-    imagePreview: imagePreview,
+    imagePreviewElement: imagePreviewElement,
     getFiltersImg: getFiltersImg
   };
 })();

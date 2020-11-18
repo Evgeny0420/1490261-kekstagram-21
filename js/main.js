@@ -1,18 +1,18 @@
 'use strict';
 
 (function () {
-  const main = document.querySelector(`main`);
-  const successTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
-  const errorTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
-  const imgFilters = document.querySelector(`.img-filters`);
+  const mainElement = document.querySelector(`main`);
+  const successTemplateElement = document.querySelector(`#success`).content.querySelector(`.success`);
+  const errorTemplateElement = document.querySelector(`#error`).content.querySelector(`.error`);
+  const imgFiltersElement = document.querySelector(`.img-filters`);
 
   const filterOpen = function () {
-    imgFilters.classList.remove(`img-filters--inactive`);
+    imgFiltersElement.classList.remove(`img-filters--inactive`);
   };
-  const elementsErrorSuccess = [errorTemplate, successTemplate];
+  const elementsErrorSuccess = [errorTemplateElement, successTemplateElement];
   for (let i = 0; i < elementsErrorSuccess.length; i++) {
-    let element = elementsErrorSuccess[i].cloneNode(true);
-    main.appendChild(element);
+    const element = elementsErrorSuccess[i].cloneNode(true);
+    mainElement.appendChild(element);
     element.classList.add(`hidden`);
   }
   let photos = [];
@@ -34,20 +34,20 @@
       const comparePhotos = function (a, b) {
         return a.comments.length - b.comments.length;
       };
-      let resultPhotos = Array.from(data).sort(comparePhotos).reverse();
+      const resultPhotos = Array.from(data).sort(comparePhotos).reverse();
       window.render.append(resultPhotos);
       window.openBigPhotos(resultPhotos);
     };
-    window.filters.filterDefault.addEventListener(`click`, function () {
-      window.filters.filterDefaultActive();
+    window.filters.filterDefaultElement.addEventListener(`click`, function () {
+      window.filters.getFilterDefaultActive();
       window.debounce(getDefaultFilters);
     });
-    window.filters.filterRandom.addEventListener(`click`, function () {
-      window.filters.filterRandomActive();
+    window.filters.filterRandomElement.addEventListener(`click`, function () {
+      window.filters.getFilterRandomActive();
       window.debounce(getRandomFilters);
     });
-    window.filters.filterDiscussed.addEventListener(`click`, function () {
-      window.filters.filterDiscussedActive();
+    window.filters.filterDiscussedElement.addEventListener(`click`, function () {
+      window.filters.getFilterDiscussedActive();
       window.debounce(discussedFilters);
     });
     getDefaultFilters();

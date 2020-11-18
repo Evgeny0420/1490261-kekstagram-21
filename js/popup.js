@@ -1,23 +1,28 @@
 'use strict';
 
 (function () {
-  const uploadFile = document.querySelector(`#upload-file`);
-  const uploadOverlay = document.querySelector(`.img-upload__overlay`);
-  const uploadCancel = document.querySelector(`#upload-cancel`);
+  const uploadFileElement = document.querySelector(`#upload-file`);
+  const uploadOverlayElement = document.querySelector(`.img-upload__overlay`);
+  const uploadCancelElement = document.querySelector(`#upload-cancel`);
+  const formElement = document.querySelector(`.img-upload__form`);
   const body = document.querySelector(`body`);
-  uploadFile.addEventListener(`change`, function (evt) {
+  uploadFileElement.addEventListener(`change`, function (evt) {
     evt.preventDefault();
     openPopup();
   });
   const openPopup = function () {
-    uploadOverlay.classList.remove(`hidden`);
+    uploadOverlayElement.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
   };
   const cancelPopup = function () {
-    uploadOverlay.classList.add(`hidden`);
+    uploadOverlayElement.classList.add(`hidden`);
     body.classList.remove(`modal-open`);
+    window.zoom.reset();
+    formElement.reset();
+    window.slider.getFiltersImg();
+    window.successErrorPopup.successOpen();
   };
-  uploadCancel.addEventListener(`click`, function () {
+  uploadCancelElement.addEventListener(`click`, function () {
     cancelPopup();
   });
   document.addEventListener(`keydown`, function (evt) {
@@ -26,15 +31,10 @@
     }
     window.util.isEscEvent(evt, cancelPopup);
   });
-  const form = document.querySelector(`.img-upload__form`);
-  form.addEventListener(`submit`, function (evt) {
-    const formData = new FormData(form);
+  formElement.addEventListener(`submit`, function (evt) {
+    const formData = new FormData(formElement);
     const getSuccessPopup = function () {
-      window.zoom.reset();
-      form.reset();
-      window.slider.getFiltersImg();
       cancelPopup();
-      window.successErrorPopup.successOpen();
     };
     const getErrorPopup = function () {
       window.successErrorPopup.errorOpen();
@@ -44,6 +44,6 @@
   });
   window.popup = {
     body: body,
-    form: form
+    formElement: formElement
   };
 })();
